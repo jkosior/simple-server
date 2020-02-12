@@ -8,15 +8,12 @@ import { multerDestinationHandler } from '@server/multerDestinationHandler';
 import { multerFilenameHandler } from '@server/multerFileNameHandler';
 import { jwtConstants } from '@auth/auth.constants';
 import { JwtModule } from '@nestjs/jwt';
+import { CartModule } from '@cart/cart.module';
 
 
 @Module({
   imports: [
     DbModule,
-    JwtModule.register({
-      secret: jwtConstants.secret,
-      signOptions: { expiresIn: '60s' },
-    }),
     MulterModule.registerAsync({
       useFactory: () => ({
         storage: diskStorage({
@@ -25,6 +22,7 @@ import { JwtModule } from '@nestjs/jwt';
         })
       })
     }),
+    CartModule,
   ],
   controllers: [UserController],
   providers: [UserService],

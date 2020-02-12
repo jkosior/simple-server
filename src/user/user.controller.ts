@@ -25,7 +25,7 @@ export class UserController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Get(':id/profile')
   async getUserInfo(@Param('id') id: string): Promise<User> {
-    const user = await this.userService.findOne(id);
+    const user = await this.userService.getUserProfile(id);
     return new User(user);
   }
 

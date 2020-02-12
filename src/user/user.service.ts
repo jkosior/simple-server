@@ -2,12 +2,17 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CollectionWrapper } from '@db/collection.wrapper';
 import { DbService } from '@db/db.service';
 import { CreateUserDto, User } from './user.model';
+import { Cart } from '@cart/cart.model';
+import { CartService } from '@cart/cart.service';
 
 @Injectable()
 export class UserService {
   private userCollection: CollectionWrapper<User, CreateUserDto>;
 
-  constructor(private readonly database: DbService) {
+  constructor(
+    private readonly database: DbService,
+    private readonly cartService: CartService,
+  ) {
     this.userCollection = this.database.getUserCollection();
   }
 
@@ -20,7 +25,15 @@ export class UserService {
   }
 
   async findByUsername(username: string): Promise<User> {
-    return this.userCollection.findOneByParam('username', username) as User;
+    const user: User = await this.userCollection.findOneByParam('username', username) as User;
+    return user;
+  }
+
+  async getUserProfile(id: string): Promise<User> {
+    const user = await this.findOne(id);
+    const carts: Cart[] = await this.cartService.findCartsPerUser(id);
+    user.carts = carts;
+    return user;
   }
 
   async create(user: CreateUserDto): Promise<User> {

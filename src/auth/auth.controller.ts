@@ -5,6 +5,7 @@ import {
   UseGuards,
   UseInterceptors,
   ClassSerializerInterceptor,
+  Request,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
@@ -25,4 +26,12 @@ export class AuthController {
   async login(@Body() user: User) {
     return this.authService.login(user);
   }
+
+  @UseInterceptors(ClassSerializerInterceptor)
+  @UseGuards(AuthGuard('jwt'))
+  @Post('change-password')
+  async changePassword(@Body('password') password: string, @Request() req) {
+    return this.authService.changePassword(password, req.user.userId);
+  }
+
 }

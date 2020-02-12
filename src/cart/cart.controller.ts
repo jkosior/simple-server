@@ -22,24 +22,21 @@ export class CartController {
     return this.cartService.findAll();
   }
 
-  @UseGuards(AuthGuard('jwt'))
   @Post()
   async create(@Body() cartToCreate: CreateCartDto, @Request() req): Promise<Cart> {
     const cart: Partial<Cart> = {
       ...cartToCreate,
-      owner: req.user.id,
+      owner: req.user.userId,
     }
     return this.cartService.create(cart);
   }
 
-  @UseGuards(AuthGuard('jwt'))
   @Get(':id')
   async getCart(@Param('id') id: string): Promise<Cart> {
     const product = await this.cartService.findOne(id);
     return product
   }
 
-  @UseGuards(AuthGuard('jwt'))
   @Put(':id')
   async updateCart(
     @Param('id') id: string,
@@ -49,8 +46,7 @@ export class CartController {
     return updatedCart;
   }
 
-  @UseGuards(AuthGuard('jwt'))
-  @Post(':id')
+  @Put(':id')
   async addProductToCart(
     @Param('id') id: string,
     @Body() cartProducts: CartProduct[],
@@ -58,7 +54,6 @@ export class CartController {
     const updatedCart = await this.cartService.addToCart(id, cartProducts);
     return updatedCart;
   }
-
 
   @Delete(':id')
   async deleteCart(@Param('id') id: string): Promise<boolean> {

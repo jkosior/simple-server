@@ -48,6 +48,13 @@ export class CartService {
     return this.cartCollection.delete(cartId);
   }
 
+  async findCartsPerUser(userId: string): Promise<Cart[]> {
+    const carts = await this.findAll();
+    return Object.values(carts).filter(
+      c => c.owner === userId,
+    );
+  }
+
   private handleAddingProducts(cart, cartProducts) {
     for (const product of cartProducts) {
       const index = this.productInCart(cart, product);

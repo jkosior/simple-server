@@ -1,5 +1,6 @@
 import { IsString } from 'class-validator';
 import { Exclude } from 'class-transformer';
+import { Cart } from '@cart/cart.model';
 
 export class CreateUserDto {
   @IsString()
@@ -19,6 +20,7 @@ export class User {
   surname: string;
   avatar?: string;
   files?: string[];
+  carts?: Cart[];
 
   @Exclude()
   password: string;

@@ -1,4 +1,4 @@
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from '@user/user.service';
 import { User, CreateUserDto } from '@user/user.model';
@@ -39,6 +39,17 @@ export class AuthService {
     return new User(savedUser); // omits password
   }
 
+  async changePassword(newPassword: string, userId: string) {
+    const foundUser: User = await this.userService.findOne(userId);
+    if (!foundUser) {
+      throw new NotFoundException('o user had been found');
+    }
+
+    const password = await this.generateHashPassword(newPassword);
+    foundUser.password = password;
+    return new User(foundUser);
+  }
+
   async validateUser(username: string, pass: string) {
     const user: User = await this.userService.findByUsername(username);
     if (!user) {
@@ -55,8 +66,10 @@ export class AuthService {
     return result;
   }
 
-  async login({ username, password }: User) {
-    const payload = { username, sub: password };
+  async login({ username }: User) {
+    const user = await this.userService.findByUsername(username);
+    const payload = { username, sub: user.id };
+
     return {
       access_token: this.jwtService.sign(payload),
     };
