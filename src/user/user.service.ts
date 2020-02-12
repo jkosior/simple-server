@@ -41,7 +41,8 @@ export class UserService {
   }
 
   async update(userId: string, user: CreateUserDto): Promise<User> {
-    const updatedUser = this.userCollection.update(userId, user);
+    const { password, ...rest } = user;
+    const updatedUser = this.userCollection.update(userId, rest);
     if (!updatedUser) {
       throw new NotFoundException('User not found');
     }

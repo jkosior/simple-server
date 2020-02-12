@@ -22,6 +22,7 @@ export class CartController {
     return this.cartService.findAll();
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Post()
   async create(@Body() cartToCreate: CreateCartDto, @Request() req): Promise<Cart> {
     const cart: Partial<Cart> = {
@@ -46,7 +47,7 @@ export class CartController {
     return updatedCart;
   }
 
-  @Put(':id')
+  @Put(':id/products')
   async addProductToCart(
     @Param('id') id: string,
     @Body() cartProducts: CartProduct[],

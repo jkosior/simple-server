@@ -10,7 +10,7 @@ export class CreateUserDto {
   @IsString()
   readonly surname: string;
   @IsString()
-  readonly password: string;
+  readonly password?: string;
 }
 
 export class User {
@@ -23,7 +23,7 @@ export class User {
   carts?: Cart[];
 
   @Exclude()
-  password: string;
+  password?: string;
 
   constructor(partial: Partial<User>) {
     Object.assign(this, partial);
