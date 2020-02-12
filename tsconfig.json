@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "ES6",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "paths": {
+      "@auth/*": ["src/auth/*"],
+      "@cart/*": ["src/cart/*"],
+      "@db/*": ["src/db/*"],
+      "@product/*": ["src/product/*"],
+      "@server/*": ["src/server/*"],
+      "@user/*": ["src/user/*"]
+    }
+  },
+  "exclude": ["node_modules", "dist"]
+}
