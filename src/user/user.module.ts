@@ -10,7 +10,6 @@ import { jwtConstants } from '@auth/auth.constants';
 import { JwtModule } from '@nestjs/jwt';
 import { CartModule } from '@cart/cart.module';
 
-
 @Module({
   imports: [
     DbModule,
@@ -19,8 +18,8 @@ import { CartModule } from '@cart/cart.module';
         storage: diskStorage({
           destination: multerDestinationHandler,
           filename: multerFilenameHandler,
-        })
-      })
+        }),
+      }),
     }),
     CartModule,
   ],

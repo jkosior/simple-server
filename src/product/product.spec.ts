@@ -4,19 +4,19 @@ import { DbService } from '@db/db.service';
 const testProduct = {
   name: 'banana',
   price: 12,
-}
+};
 
 describe('[PRODUCT]', () => {
   let productService: ProductService;
   let productId: string;
 
   beforeAll(async () => {
-    const dbService = new DbService()
+    const dbService = new DbService();
     productService = new ProductService(dbService);
-  })
+  });
 
   describe('[POST /product]', () => {
-    it ('should create product', async () => {
+    it('should create product', async () => {
       const product = await productService.create(testProduct);
       expect(product).toHaveProperty('id');
       productId = product.id;
@@ -24,8 +24,8 @@ describe('[PRODUCT]', () => {
       expect(product.name).toBe(testProduct.name);
       expect(product).toHaveProperty('price');
       expect(product.price).toBe(testProduct.price);
-    })
-  })
+    });
+  });
 
   describe('[GET /product]', () => {
     it('should return product', async () => {
@@ -36,8 +36,6 @@ describe('[PRODUCT]', () => {
       expect(product.name).toBe(testProduct.name);
       expect(product).toHaveProperty('price');
       expect(product.price).toBe(testProduct.price);
-    })
-  })
-
-
-})
+    });
+  });
+});

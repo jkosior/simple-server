@@ -25,7 +25,10 @@ export class UserService {
   }
 
   async findByUsername(username: string): Promise<User> {
-    const user: User = await this.userCollection.findOneByParam('username', username) as User;
+    const user: User = (await this.userCollection.findOneByParam(
+      'username',
+      username,
+    )) as User;
     return user;
   }
 

@@ -42,6 +42,9 @@ export class DbService {
 
   public getProductCollection() {
     const { products, productIndexes } = this.database;
-    return new CollectionWrapper<Product, CreateProductDto>(products, productIndexes);
+    return new CollectionWrapper<Product, CreateProductDto>(
+      products,
+      productIndexes,
+    );
   }
 }

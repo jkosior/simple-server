@@ -50,9 +50,7 @@ export class CartService {
 
   async findCartsPerUser(userId: string): Promise<Cart[]> {
     const carts = await this.findAll();
-    return Object.values(carts).filter(
-      c => c.owner === userId,
-    );
+    return Object.values(carts).filter(c => c.owner === userId);
   }
 
   private handleAddingProducts(cart, cartProducts) {

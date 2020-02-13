@@ -10,7 +10,9 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { CreateUserDto, User } from '@user/user.model';
+import { ApiTags, ApiBody } from '@nestjs/swagger';
 
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -23,6 +25,19 @@ export class AuthController {
 
   @UseGuards(AuthGuard('local'))
   @Post('login')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        username: {
+          type: 'string'
+        },
+        password: {
+          type: 'string'
+        }
+      }
+    }
+  })
   async login(@Body() user: User) {
     return this.authService.login(user);
   }
@@ -33,5 +48,4 @@ export class AuthController {
   async changePassword(@Body('password') password: string, @Request() req) {
     return this.authService.changePassword(password, req.user.userId);
   }
-
 }

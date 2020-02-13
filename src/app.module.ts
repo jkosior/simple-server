@@ -10,10 +10,6 @@ import { jwtConstants } from '@auth/auth.constants';
 
 @Module({
   imports: [
-    JwtModule.register({
-      secret: jwtConstants.secret,
-      signOptions: { expiresIn: '3600s' },
-    }),
     ConfigModule.resolveRootPath(__dirname).load(
       'config/**/!(*.d).config.{ts,js}',
       {
