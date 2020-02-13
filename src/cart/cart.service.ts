@@ -18,6 +18,7 @@ export class CartService {
   async addToCart(cartId: string, cartProducts: CartProduct[]) {
     const cart = await this.findOne(cartId);
     cart.products = cart.products || {};
+    console.log(cartProducts)
     this.handleAddingProducts(cart, cartProducts);
 
     await this.update(cartId, cart);

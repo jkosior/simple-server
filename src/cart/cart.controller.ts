@@ -21,7 +21,10 @@ import { ApiResponse, ApiNotFoundResponse, ApiInternalServerErrorResponse, ApiCr
 export class CartController {
   constructor(private readonly cartService: CartService) {}
 
+  @UseGuards(AuthGuard('jwt'))
   @Get()
+  @ApiOkResponse({ type: [Cart], description: 'Get all carts' })
+  @ApiInternalServerErrorResponse({ description: 'Internal server error' })
   async getAll() {
     return this.cartService.findAll();
   }
@@ -72,7 +75,7 @@ export class CartController {
     schema: {
       type: 'object',
       properties: {
-        product: {
+        products: {
           type: 'array',
           items: {
             type: 'object',
